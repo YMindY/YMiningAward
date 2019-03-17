@@ -19,6 +19,7 @@ public class Main extends PluginBase implements Listener{
 			conf.save();
 		}
 		*/
+		getServer().getPluginManager().registerEvents(this,this);
 		getLogger().notice("YMiningAward in Enabled! Author: xMing.");
 	}
 	@EventHandler
@@ -30,6 +31,7 @@ public class Main extends PluginBase implements Listener{
 		String idString = String.valueOf(block.getId()),
 				   metaString = String.valueOf(block.getDamage()),
 				   titleString = idString+","+metaString;
+	  //event.getPlayer().sendMessage(titleString+String.valueOf(ran));
 		//Map<String, Object> confMap = conf.getAll();
 		if(conf.exists(titleString)) {
 			ArrayList<Map<String, Object>> miningArrayList = (ArrayList<Map<String, Object>>)conf.get(titleString);
@@ -39,6 +41,7 @@ public class Main extends PluginBase implements Listener{
 				if(ran < rank) {
 					ArrayList<String> cmdArrayList = (ArrayList<String>)map.get("运行的命令");
 					for(String cmdString : cmdArrayList) {
+						cmdString = cmdString.replaceAll("@p", event.getPlayer().getName());
 						getServer().dispatchCommand(event.getPlayer(), cmdString);
 					}
 					event.getPlayer().sendMessage(String.valueOf(map.get("奖励提示")));
